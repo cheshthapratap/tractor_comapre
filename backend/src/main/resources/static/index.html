@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tractor Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">Tractor<span>Compare</span></div>
+  <nav>
+    <button data-tab="catalog" class="on">Catalog</button>
+    <button data-tab="compare">Compare <b id="cmpCount">0</b></button>
+    <button data-tab="viewer">3D view</button>
+    <button data-tab="match">Find my tractor</button>
+  </nav>
+  <input id="q" type="search" placeholder="Search company or model">
+  <button id="loginBtn" class="ghost">Log in</button>
+</header>
+<div id="status" class="status"></div>
+
+<main>
+<section id="catalog" class="tab on">
+  <div class="filters">
+    <label>Company <select id="fCompany"><option value="">All</option></select></label>
+    <label>Cylinders <select id="fCyl"><option value="">Any</option><option>3</option><option>4</option><option>6</option></select></label>
+    <label>Drive <select id="fDrive"><option value="">Any</option><option>2WD</option><option>4WD</option></select></label>
+    <label>Min HP <input id="fMinHp" type="number" min="0" placeholder="0"></label>
+    <label>Max HP <input id="fMaxHp" type="number" min="0" placeholder="400"></label>
+    <label>Sort by <select id="fSort">
+      <option value="score">Best overall score</option><option value="hp">Highest HP</option>
+      <option value="price">Lowest price</option><option value="value">Best value (HP per lakh)</option></select></label>
+  </div>
+  <div id="grid" class="grid"></div>
+</section>
+
+<section id="compare" class="tab"><div id="cmpOut"></div></section>
+
+<section id="viewer" class="tab">
+  <div class="v-wrap">
+    <div class="v-stage"><canvas id="c3d"></canvas><p class="hint">Drag to rotate, scroll to zoom</p></div>
+    <aside class="v-side">
+      <label>Tractor <select id="vSel"></select></label>
+      <div id="vSpecs"></div>
+      <p class="note">The model is built from the data: hood length follows cylinder count (3, 4, 6), front wheels are larger on 4WD, size scales with HP, paint uses the tractor color.</p>
+    </aside>
+  </div>
+</section>
+
+<section id="match" class="tab">
+  <form id="mForm" class="filters">
+    <label>Farm size <select id="mSize">
+      <option value="25-45">Small (under 5 acre)</option><option value="40-65" selected>Medium (5 to 20 acre)</option>
+      <option value="55-110">Large (20 to 60 acre)</option><option value="120-400">Commercial / contractor</option></select></label>
+    <label>Budget (lakh INR) <input id="mBudget" type="number" min="1" value="10"></label>
+    <label>Drive <select id="mDrive"><option value="">Any</option><option>2WD</option><option>4WD</option></select></label>
+    <label>Cylinders <select id="mCyl"><option value="">Any</option><option>3</option><option>4</option><option>6</option></select></label>
+    <button class="primary" type="submit">Show suitable tractors</button>
+  </form>
+  <div id="mOut" class="grid"></div>
+</section>
+</main>
+
+<dialog id="modal"><div id="modalBody"></div><button class="close ghost" onclick="this.closest('dialog').close()">Close</button></dialog>
+
+<dialog id="authModal">
+  <form id="authForm">
+    <h3 id="authTitle">Log in</h3>
+    <input id="aUser" placeholder="Username" required minlength="3">
+    <input id="aPass" type="password" placeholder="Password" required minlength="4">
+    <p id="aErr" class="err"></p>
+    <button class="primary" type="submit" id="aGo">Log in</button>
+    <button type="button" class="ghost" id="aSwap">Create an account</button>
+  </form>
+  <button class="close ghost" onclick="this.closest('dialog').close()">Close</button>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
